@@ -1,4 +1,5 @@
-import React from "react";
+// import
+export const fileContent = `import React from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -39,7 +40,7 @@ const AppBar = styled(MuiAppBar, {
   }),
   ...(open && {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: \`calc(100% - \${drawerWidth}px)\`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -273,3 +274,4 @@ function App() {
 }
 
 export default App;
+`;
