@@ -5,7 +5,7 @@ import CodeEditor from "./CodeEditor";
 
 function EditorContainer() {
   return (
-    <Box>
+    <Box sx={{ maxHeight: "100vh", overflowY: "scroll" }}>
       <CodeEditor />
     </Box>
   );

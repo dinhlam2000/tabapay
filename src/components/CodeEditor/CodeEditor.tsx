@@ -2,7 +2,7 @@
 import { useCallback, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { fileContent } from "../../assets/fileContent";
-// import { javascript } from "@codemirror/lang-javascript";
+import { javascript } from "@codemirror/lang-javascript";
 
 function CodeEditor() {
   const [value, setValue] = useState(fileContent);
@@ -13,7 +13,7 @@ function CodeEditor() {
   return (
     <CodeMirror
       value={value}
-      // extensions={[javascript({ jsx: true })]}
+      extensions={[javascript({ jsx: true })]}
       onChange={onChange}
       basicSetup={{
         lineNumbers: true,

@@ -4,28 +4,52 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TreeView } from "@mui/x-tree-view/TreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
 
+interface RenderTree {
+  id: string;
+  name: string;
+  content?: string;
+  children?: readonly RenderTree[];
+}
+
+const data: RenderTree = {
+  id: "root",
+  name: "TABAPAY",
+  children: [
+    {
+      id: "1",
+      name: "static",
+    },
+    {
+      id: "3",
+      name: "src",
+      children: [
+        {
+          id: "4",
+          name: "App.tsx",
+        },
+      ],
+    },
+  ],
+};
+
 export default function MultiSelectTreeView() {
+  const renderTree = (nodes: RenderTree) => (
+    <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+      {Array.isArray(nodes.children)
+        ? nodes.children.map((node) => renderTree(node))
+        : null}
+    </TreeItem>
+  );
+
   return (
-    <Box sx={{ minHeight: 220, flexGrow: 1, maxWidth: 300 }}>
+    <Box sx={{ minHeight: 110, flexGrow: 1, maxWidth: 300 }}>
       <TreeView
-        aria-label="multi-select"
+        aria-label="file system navigator"
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-        multiSelect
+        sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
       >
-        <TreeItem nodeId="1" label="Applications">
-          <TreeItem nodeId="2" label="Calendar" />
-          <TreeItem nodeId="3" label="Chrome" />
-          <TreeItem nodeId="4" label="Webstorm" />
-        </TreeItem>
-        <TreeItem nodeId="5" label="Documents">
-          <TreeItem nodeId="6" label="MUI">
-            <TreeItem nodeId="7" label="src">
-              <TreeItem nodeId="8" label="index.js" />
-              <TreeItem nodeId="9" label="tree-view.js" />
-            </TreeItem>
-          </TreeItem>
-        </TreeItem>
+        {renderTree(data)}
       </TreeView>
     </Box>
   );
