@@ -1,0 +1,53 @@
+version: '2.1'
+
+services:
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -optimizeDbBeforeStartup -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8888:8000"
+    volumes:
+      - "./.dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+    networks:
+      - taba
+  dynamo-admin:
+      image: instructure/dynamo-local-admin
+      ports:
+        - "8010:8001"
+      environment:
+        DYNAMO_ENDPOINT: http://dynamodb-local:8000
+      networks:
+        - taba
+  aws-cli-node-create-entity-table:
+    depends_on:
+      - dynamodb-local
+    image: banst/awscli
+    env_file:
+     - ./env/local.env
+    volumes:
+     - "./mocks:/data/mocks"
+    command:
+      dynamodb create-table --cli-input-json file:///data/mocks/dynamodb/entity-table.json --endpoint-url http://dynamodb-local:8000 --region $${AWS_DEFAULT_REGION}
+    networks:
+      - taba
+#    aws-cli-node:
+#      depends_on:
+#        - dynamodb-local
+#      image: banst/awscli
+#      container_name: aws-cli-node
+#      ports:
+#       - "8080:8080"
+#      env_file:
+#       - ./env/local.env
+#      command:
+#        dynamodb describe-limits --endpoint-url http://dynamodb-local:8000 --region $${AWS_DEFAULT_REGION}
+
+networks:
+  taba:
+    name: taba
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 85.10.0.0/16

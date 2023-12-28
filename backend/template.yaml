@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  file system backend
+
+  Sample SAM Template for file system backend
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Api:
+    OpenApiVersion: 3.0.1
+  Function:
+    Timeout: 10
+    Environment:
+      Variables:
+        DYNAMODB_ENTITY_TABLE: !Ref EntityTable
+        DYNAMODB_ENDPOINT: 'https://dynamodb.us-west-2.amazonaws.com'
+        APP_TIMEZONE: 'America/Los_Angeles'
+
+Parameters:
+  Stage:
+    Type: String
+    Default: v0
+
+Resources:
+  ApiDeployment:
+    Type: AWS::Serverless::Api
+    Cors:
+      AllowMethods: "'OPTIONS,POST,GET,PUT,DELETE'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'"
+    Properties:
+      StageName: !Ref Stage
+
+  EntityTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: !Join
+        - ''
+        - - 'entityTable-'
+          - !Ref AWS::StackName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: 'id'
+          AttributeType: S
+      KeySchema:
+        - AttributeName: 'id'
+          KeyType: HASH
+      Tags:
+        - Key: AppType
+          Value: 'Serverless'
+        - Key: AppName
+          Value: 'blog-backend'
+        - Key: AppType
+          Value: 'blog'
+
+  GenericFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: app/
+      Handler: lambda_handlers/file_system.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        GetAllFileSystems:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /file_system
+            Method: get
+            RestApiId: !Ref ApiDeployment
+        CreateFileSystems:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /file_system
+            Method: post
+            RestApiId: !Ref ApiDeployment
+        DeleteFileSystem:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /file_system/{file_system_id}
+            Method: delete
+            RestApiId: !Ref ApiDeployment
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref EntityTable
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  Api:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ApiDeployment}.execute-api.${AWS::Region}.amazonaws.com/${Stage}"
+  GenericFunction:
+    Description: "Store Lambda Function ARN"
+    Value: !GetAtt GenericFunction.Arn

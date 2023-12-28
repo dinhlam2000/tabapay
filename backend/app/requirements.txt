@@ -1,0 +1,7 @@
+requests==2.25.1
+marshmallow==3.9.1
+marshmallow-enum==1.5.1
+attrs==20.3.0
+pytz==2020.5
+boto3==1.34.9
+pynamodb==5.5.1

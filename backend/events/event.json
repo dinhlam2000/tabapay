@@ -1,0 +1,18 @@
+{
+  "body": "{\"isFolder\": true, \"name\": \"TABAPAY\", \"content\": \"\"}",
+  "headers": {
+    "Accept": "*/*",
+    "Content-Length": "123",
+    "Content-Type": "application/json",
+    "Host": "localhost:3000",
+    "User-Agent": "curl/7.64.1",
+    "X-Forwarded-Port": "3000",
+    "X-Forwarded-Proto": "http"
+  },
+  "httpMethod": "POST",
+  "multiValueQueryStringParameters": {},
+  "resource": "/file_system",
+  "path": "/file_system",
+  "pathParameters": {},
+  "queryStringParameters": {}
+}

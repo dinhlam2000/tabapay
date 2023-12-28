@@ -1,0 +1,10 @@
+{
+  "Parameters": {
+    "APP_TIMEZONE": "America/Los_Angeles",
+    "AWS_DEFAULT_REGION": "us-west-2",
+    "AWS_ACCESS_KEY_ID": "DUMMYIDEXAMPLE",
+    "AWS_SECRET_ACCESS_KEY": "DUMMYEXAMPLEKEY",
+    "DYNAMODB_ENDPOINT": "http://host.docker.internal:8888",
+    "DYNAMODB_ENTITY_TABLE" : "EntityTable"
+  }
+}
