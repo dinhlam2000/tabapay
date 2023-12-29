@@ -4,7 +4,9 @@ import sortBy from "lodash/sortBy";
 
 const ROOT_FOLDER_NAME = "TABAPAY";
 
-export const treeParser = (data: FileSystem[]): RenderTree => {
+export const treeParser = (
+  data: FileSystem[]
+): { rootNode: RenderTree; folderMapperId: Record<string, RenderTree> } => {
   const rootNode: RenderTree = {
     id: "root",
     name: ROOT_FOLDER_NAME,
@@ -12,8 +14,9 @@ export const treeParser = (data: FileSystem[]): RenderTree => {
     children: [],
   };
 
-  const folderMapper: Record<string, RenderTree> = {};
-  folderMapper[rootNode.name] = rootNode;
+  const folderMapperName: Record<string, RenderTree> = {}; // this one is for tree creation, using name as a hash key
+  const folderMapperId: Record<string, RenderTree> = {}; // this one is using the id as a hash key for global usage of node selection
+  folderMapperName[rootNode.name] = rootNode;
   const sortedData = sortBy(data, (d: FileSystem) => {
     const count = d.name.split("/");
     return count.length;
@@ -23,14 +26,15 @@ export const treeParser = (data: FileSystem[]): RenderTree => {
     const pathToFolder = fileObject.name.split("/").slice(0, -1);
     pathToFolder.splice(0, 0, ROOT_FOLDER_NAME);
     const pathToFolderJoin: string = pathToFolder.join("/");
-    const parentNode = folderMapper[pathToFolderJoin];
+    const parentNode = folderMapperName[pathToFolderJoin];
     const newNode = { ...fileObject, children: [] };
+    folderMapperId[fileObject.id] = newNode;
     if (parentNode) {
       parentNode.children.push(newNode);
-      folderMapper[ROOT_FOLDER_NAME + "/" + fileObject.name] = newNode;
+      folderMapperName[ROOT_FOLDER_NAME + "/" + fileObject.name] = newNode;
     } else {
-      folderMapper[fileObject.name] = newNode;
+      folderMapperName[fileObject.name] = newNode;
     }
   });
-  return rootNode;
+  return { rootNode, folderMapperId };
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -79,11 +79,24 @@ const Drawer = styled(MuiDrawer, {
 
 function PageLayout() {
   const { data: dataSource } = useFileSystems();
-  const [currentNode, setCurrentNode] = useState<RenderTree | undefined>(
+  const [currentNodeID, setCurrentNodeID] = useState<string | undefined>(
+    undefined
+  );
+  const [selectedNode, setSelectedNode] = useState<RenderTree | undefined>(
     undefined
   );
 
   const tree = useMemo(() => treeParser(dataSource || []), [dataSource]);
+
+  const handleNodeSelect = useCallback(
+    (node: string) => {
+      setCurrentNodeID(node);
+      setSelectedNode(tree.folderMapperId[node]);
+    },
+    [setCurrentNodeID, setSelectedNode, tree]
+  );
+
+  console.log("tree", tree);
 
   useEffect(() => {}, []);
   const [open, setOpen] = React.useState(true);
@@ -102,7 +115,7 @@ function PageLayout() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", height: "100vh" }}>
       <CssBaseline />
       <AppBar position="absolute" open={open} color="secondary">
         <Toolbar
@@ -199,7 +212,10 @@ function PageLayout() {
         </Toolbar>
         <Divider />
         <List component="nav">
-          <MultiSelectTreeView treeContent={tree} />
+          <MultiSelectTreeView
+            treeContent={tree.rootNode}
+            onSelectNode={handleNodeSelect}
+          />
         </List>
       </Drawer>
       <Box
@@ -210,12 +226,21 @@ function PageLayout() {
               ? theme.palette.grey[100]
               : theme.palette.grey[900],
           flexGrow: 1,
-          height: "100vh",
+          // height: "100vh",
           overflow: "auto",
         }}
       >
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4, marginTop: "100px" }}>
-          <EditorContainer />
+        <Container
+          maxWidth="lg"
+          sx={{
+            mt: 4,
+            mb: 4,
+            marginTop: "100px",
+            height: "calc(100vh - 132px)",
+          }}
+        >
+          {selectedNode?.name}
+          <EditorContainer selectedNode={selectedNode} />
         </Container>
       </Box>
     </Box>

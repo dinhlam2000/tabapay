@@ -12,36 +12,24 @@ export interface RenderTree {
   children: RenderTree[];
 }
 
-const data: RenderTree = {
-  id: "root",
-  name: "TABAPAY",
-  children: [
-    {
-      id: "1",
-      name: "static",
-      children: [],
-    },
-    {
-      id: "3",
-      name: "src",
-      children: [
-        {
-          id: "4",
-          name: "App.tsx",
-          children: [],
-        },
-      ],
-    },
-  ],
-};
+type OnNodeSelectCallback = (nodeId: string) => void;
 
 export default function MultiSelectTreeView({
   treeContent,
+  onSelectNode,
 }: {
   treeContent: RenderTree;
+  onSelectNode: OnNodeSelectCallback;
 }) {
+  const handleNodeSelect = (_: any, node: string) => {
+    onSelectNode(node);
+  };
   const renderTree = (nodes: RenderTree) => (
-    <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+    <TreeItem
+      key={nodes.id}
+      nodeId={nodes.id}
+      label={nodes.name.split("/").slice(-1)}
+    >
       {Array.isArray(nodes.children)
         ? nodes.children.map((node) => renderTree(node))
         : null}
@@ -49,12 +37,13 @@ export default function MultiSelectTreeView({
   );
 
   return (
-    <Box sx={{ minHeight: 110, flexGrow: 1, maxWidth: 300 }}>
+    <Box sx={{ flexGrow: 1, maxWidth: 300 }}>
       <TreeView
         aria-label="file system navigator"
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-        sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+        onNodeSelect={handleNodeSelect}
+        sx={{ height: "100%", flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
       >
         {renderTree(treeContent)}
       </TreeView>

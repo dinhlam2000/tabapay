@@ -1,18 +1,17 @@
 // import React from "react";
 import { useCallback, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
-import { fileContent } from "../../assets/fileContent";
 import { javascript } from "@codemirror/lang-javascript";
 
-function CodeEditor() {
-  const [value, setValue] = useState(fileContent);
+function CodeEditor({ fileContent }: { fileContent: string | undefined }) {
+  const [value, setValue] = useState<string | undefined>(fileContent);
+  console.log("value", value, fileContent);
   const onChange = useCallback((val: any, viewUpdate: any) => {
-    console.log("val:", val);
     setValue(val);
   }, []);
   return (
     <CodeMirror
-      value={value}
+      value={fileContent}
       extensions={[javascript({ jsx: true })]}
       onChange={onChange}
       basicSetup={{
