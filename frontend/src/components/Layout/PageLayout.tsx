@@ -89,6 +89,12 @@ function PageLayout() {
 
   const tree = useMemo(() => treeParser(dataSource || []), [dataSource]);
 
+  const allKeys = useMemo(() => {
+    const allObject = Object.keys(tree.folderMapperId);
+    allObject.splice(0, 0, "root");
+    return allObject;
+  }, [tree]);
+
   const handleNodeSelect = useCallback(
     (nodeId: string) => {
       const node = tree.folderMapperId[nodeId];
@@ -100,15 +106,13 @@ function PageLayout() {
     [setCurrentNodeID, setSelectedNode, tree]
   );
 
-  console.log("tree", tree);
-
   useEffect(() => {}, []);
   const [open, setOpen] = React.useState(true);
   const [anchorElProfile, setAnchorElProfile] =
     React.useState<null | HTMLElement>(null);
 
   const toggleDrawer = () => {
-    setOpen(!open);
+    // setOpen(!open);
   };
 
   const handleProfileOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -197,29 +201,21 @@ function PageLayout() {
             component="img"
             sx={{
               height: 35,
-              width: 20,
+              // width: 2,
             }}
             alt="The house from the offer."
             src="/assets/tabapay.png"
           />
-          <IconButton onClick={toggleDrawer}>
-            <Typography
-              variant="h6"
-              color="text.primary"
-              align="left"
-              sx={{ fontWeight: 600 }}
-            >
-              TabaPay
-            </Typography>
-            <ChevronLeftIcon />
-          </IconButton>
         </Toolbar>
         <Divider />
         <List component="nav">
-          <MultiSelectTreeView
-            treeContent={tree.rootNode}
-            onSelectNode={handleNodeSelect}
-          />
+          {allKeys.length > 1 ? (
+            <MultiSelectTreeView
+              treeContent={tree.rootNode}
+              defaultExpandedID={allKeys.slice(0, 4)}
+              onSelectNode={handleNodeSelect}
+            />
+          ) : null}
         </List>
       </Drawer>
       <Box
@@ -237,10 +233,11 @@ function PageLayout() {
         <Container
           maxWidth="lg"
           sx={{
-            mt: 4,
             mb: 4,
-            marginTop: "100px",
-            height: "calc(100vh - 132px)",
+            mt: "72px",
+            mx: 0,
+            height: "calc(100vh - 120px)",
+            maxWidth: "unset !important",
           }}
         >
           <Typography variant="h6">{selectedNode?.name}</Typography>

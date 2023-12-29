@@ -9,10 +9,9 @@ function EditorContainer({
 }: {
   selectedNode: RenderTree | undefined;
 }) {
-  console.log("selectedNode", selectedNode);
   return (
     <Box sx={{ height: "100%", overflowY: "scroll", fontSize: "0.8rem" }}>
-      <CodeEditor fileContent={selectedNode?.content} />
+      <CodeEditor selectedNode={selectedNode} />
     </Box>
   );
 }

@@ -17,9 +17,11 @@ type OnNodeSelectCallback = (nodeId: string) => void;
 export default function MultiSelectTreeView({
   treeContent,
   onSelectNode,
+  defaultExpandedID,
 }: {
   treeContent: RenderTree;
   onSelectNode: OnNodeSelectCallback;
+  defaultExpandedID: Array<string>;
 }) {
   const handleNodeSelect = (_: any, node: string) => {
     onSelectNode(node);
@@ -46,6 +48,7 @@ export default function MultiSelectTreeView({
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         onNodeSelect={handleNodeSelect}
+        defaultExpanded={defaultExpandedID}
         sx={{
           height: "100%",
           flexGrow: 1,

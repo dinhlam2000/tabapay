@@ -1,18 +1,49 @@
 // import React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
+// language
 import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
+
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
-function CodeEditor({ fileContent }: { fileContent: string | undefined }) {
-  const [value, setValue] = useState<string | undefined>(fileContent);
+import { RenderTree } from "../TreeView/MultiSelectTreeView";
+import { truncateSync } from "fs";
+
+function CodeEditor({
+  selectedNode,
+}: {
+  selectedNode: RenderTree | undefined;
+}) {
+  const [value, setValue] = useState<string | undefined>(selectedNode?.content);
+  const [language, setLanguage] = useState(javascript);
+
+  useEffect(() => {
+    const fileName = selectedNode?.name;
+    if (!selectedNode?.isFolder) {
+      if (
+        fileName?.endsWith(".js") ||
+        fileName?.endsWith(".ts") ||
+        fileName?.endsWith(".tsx")
+      ) {
+        setLanguage(javascript({ jsx: true }));
+      } else if (fileName?.endsWith(".py")) {
+        setLanguage(python);
+      }
+      // Set default language to python for now
+      else {
+        setLanguage(python);
+      }
+    }
+  }, [selectedNode]);
+
   const onChange = useCallback((val: any, viewUpdate: any) => {
     setValue(val);
   }, []);
   return (
     <CodeMirror
-      value={fileContent}
-      extensions={[javascript({ jsx: true })]}
+      value={selectedNode?.content}
+      extensions={[language]}
       onChange={onChange}
       theme={vscodeDark}
       basicSetup={{

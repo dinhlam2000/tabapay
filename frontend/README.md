@@ -59,7 +59,8 @@ cat ~/.aws/credentials
 
 amplify configure # only run one time to generate ~/.aws/credentials
 amplify init # to build frontend project
-amplify build
+
+amplify build # might need to amplify host first if have not hosted
 amplify publish
 
 ```
