@@ -4,11 +4,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TreeView } from "@mui/x-tree-view/TreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
 
-interface RenderTree {
+export interface RenderTree {
   id: string;
   name: string;
   content?: string;
-  children?: readonly RenderTree[];
+  isFolder?: boolean;
+  children: RenderTree[];
 }
 
 const data: RenderTree = {
@@ -18,6 +19,7 @@ const data: RenderTree = {
     {
       id: "1",
       name: "static",
+      children: [],
     },
     {
       id: "3",
@@ -26,13 +28,18 @@ const data: RenderTree = {
         {
           id: "4",
           name: "App.tsx",
+          children: [],
         },
       ],
     },
   ],
 };
 
-export default function MultiSelectTreeView() {
+export default function MultiSelectTreeView({
+  treeContent,
+}: {
+  treeContent: RenderTree;
+}) {
   const renderTree = (nodes: RenderTree) => (
     <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
       {Array.isArray(nodes.children)
@@ -49,7 +56,7 @@ export default function MultiSelectTreeView() {
         defaultExpandIcon={<ChevronRightIcon />}
         sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
       >
-        {renderTree(data)}
+        {renderTree(treeContent)}
       </TreeView>
     </Box>
   );
