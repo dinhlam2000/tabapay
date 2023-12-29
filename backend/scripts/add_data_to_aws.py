@@ -1,3 +1,21 @@
+"""
+This script injects all the nodes (files/folders), both backend + frontend folder, into dynamodb, using  AWS Lambda
+IMPORTANT: Folder structure should remain as it is where:
+ROOT:
+    backend:
+        ...
+        ...
+        scripts/
+                add_data_to_aws.py <------- We are currently here and calling this script
+    frontend:
+        ...
+        ...
+"""
+
+"""
+Script will only inject files within the allowed_extensions variables:
+Currently only supporting: ['py', 'tsx', 'css', 'scss', 'js', 'txt', 'md', 'yaml', 'toml', 'ts', 'yml', 'json', 'gitignore']
+"""
 import os
 import codecs
 import requests
@@ -21,7 +39,7 @@ def read_ignore_file(gitIgnorePath):
 
 ignore_files = set(['.git'])
 
-allowed_extensions = ['py', 'tsx', 'css', 'scss', 'js', 'txt', 'md', 'yaml', 'toml', 'ts', 'yml', 'json']
+allowed_extensions = ['py', 'tsx', 'css', 'scss', 'js', 'txt', 'md', 'yaml', 'toml', 'ts', 'yml', 'json', 'gitignore']
 
 if __name__ == '__main__':
     file_system_list = []

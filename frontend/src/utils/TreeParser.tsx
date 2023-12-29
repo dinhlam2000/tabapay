@@ -4,6 +4,8 @@ import sortBy from "lodash/sortBy";
 
 const ROOT_FOLDER_NAME = "TABAPAY";
 
+// This function helps generating a tree to display the file system. The data comes from the server, and this parses it
+// Ultimately, a root node will be tabapay, and every subsequent children are appended through this root node, creating a tree system
 export const treeParser = (
   data: FileSystem[]
 ): { rootNode: RenderTree; folderMapperId: Record<string, RenderTree> } => {
