@@ -8,7 +8,6 @@ import { python } from "@codemirror/lang-python";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 import { RenderTree } from "../TreeView/MultiSelectTreeView";
-import { truncateSync } from "fs";
 
 function CodeEditor({
   selectedNode,

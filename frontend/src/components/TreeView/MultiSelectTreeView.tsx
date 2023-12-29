@@ -50,7 +50,7 @@ export default function MultiSelectTreeView({
         onNodeSelect={handleNodeSelect}
         defaultExpanded={defaultExpandedID}
         sx={{
-          height: "100%",
+          height: "calc(100vh - 80px - 24px)",
           flexGrow: 1,
           maxWidth: 400,
           overflowY: "auto",

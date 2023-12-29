@@ -25,6 +25,7 @@ import MultiSelectTreeView, {
 import EditorContainer from "../CodeEditor/EditorContainer";
 import { useFileSystems } from "../../hooks/use-file-systems";
 import { treeParser } from "../../utils/TreeParser";
+import { BottomNavigation, Paper } from "@mui/material";
 
 const drawerWidth: number = 240;
 
@@ -122,6 +123,21 @@ function PageLayout() {
     setAnchorElProfile(null);
   };
 
+  const getFileType = (fileName: string) => {
+    if (fileName.endsWith(".tsx") || fileName.endsWith(".ts")) {
+      return "Typescript";
+    } else if (fileName.endsWith(".py")) {
+      return "Python";
+    } else if (fileName.endsWith(".yml") || fileName.endsWith(".yaml")) {
+      return "YAML";
+    } else if (fileName.endsWith(".md")) {
+      return "Markdown";
+    } else if (fileName.endsWith(".scss") || fileName.endsWith(".css")) {
+      return "CSS";
+    } else {
+      return "Text";
+    }
+  };
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
       <CssBaseline />
@@ -236,7 +252,7 @@ function PageLayout() {
             mb: 4,
             mt: "72px",
             mx: 0,
-            height: "calc(100vh - 120px)",
+            height: "calc(100vh - 108px - 24px)",
             maxWidth: "unset !important",
           }}
         >
@@ -244,6 +260,33 @@ function PageLayout() {
           <EditorContainer selectedNode={selectedNode} />
         </Container>
       </Box>
+      <Paper
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "24px",
+          opacity: 1,
+          background: "#0077CC",
+        }}
+        elevation={3}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ ml: 2 }} variant="h6">
+            Footer
+          </Typography>
+          <Typography variant="h6" sx={{ mr: 2 }}>
+            {getFileType(selectedNode?.name || "")}
+          </Typography>
+        </Box>
+      </Paper>
     </Box>
   );
 }
