@@ -10,7 +10,7 @@ https://github.com/dinhlam2000/tabapay
 
 ### DEMO GIF
 
-<img width="960" alt="image" src="./docs/GifyDemoWellSpring.gif">
+<img width="960" alt="image" src="./frontend/public/assets/FileSystemDemo.gif">
 
 ## Tech Stack
 
