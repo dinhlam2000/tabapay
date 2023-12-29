@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-codeide-dev-220641-authRole",
+      "UnauthRoleArn": "arn:aws:iam::144192756145:role/amplify-codeide-dev-220641-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::144192756145:role/amplify-codeide-dev-220641-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-codeide-dev-220641-deployment",
+      "UnauthRoleName": "amplify-codeide-dev-220641-unauthRole",
+      "StackName": "amplify-codeide-dev-220641",
+      "StackId": "arn:aws:cloudformation:us-west-2:144192756145:stack/amplify-codeide-dev-220641/708891b0-a610-11ee-8cf0-021b30065e59",
+      "AmplifyAppId": "d6nv8d6ct5cz4"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d6nv8d6ct5cz4",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
