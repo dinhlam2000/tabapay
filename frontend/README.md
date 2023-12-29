@@ -1,5 +1,10 @@
 # Getting Started with Create React App
 
+## BACKEND
+
+API = 'https://n4ae4vqh0g.execute-api.us-west-2.amazonaws.com/v0'
+DEPLOYED API USING SAM CLI
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

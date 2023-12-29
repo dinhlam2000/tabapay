@@ -134,6 +134,8 @@ function PageLayout() {
       return "Markdown";
     } else if (fileName.endsWith(".scss") || fileName.endsWith(".css")) {
       return "CSS";
+    } else if (fileName.endsWith(".json")) {
+      return "JSON";
     } else {
       return "Text";
     }

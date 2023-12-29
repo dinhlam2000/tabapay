@@ -21,7 +21,7 @@ def read_ignore_file(gitIgnorePath):
 
 ignore_files = set(['.git'])
 
-allowed_extensions = ['py', 'tsx', 'css', 'scss', 'js', 'txt', 'md', 'yaml', 'toml', 'ts', 'yml']
+allowed_extensions = ['py', 'tsx', 'css', 'scss', 'js', 'txt', 'md', 'yaml', 'toml', 'ts', 'yml', 'json']
 
 if __name__ == '__main__':
     file_system_list = []

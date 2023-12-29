@@ -4,6 +4,8 @@ import CodeMirror from "@uiw/react-codemirror";
 // language
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
+import { json } from "@codemirror/lang-json";
+import { markdown } from "@codemirror/lang-markdown";
 
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
@@ -28,6 +30,10 @@ function CodeEditor({
         setLanguage(javascript({ jsx: true }));
       } else if (fileName?.endsWith(".py")) {
         setLanguage(python);
+      } else if (fileName?.endsWith(".json")) {
+        setLanguage(json);
+      } else if (fileName?.endsWith(".md")) {
+        setLanguage(markdown());
       }
       // Set default language to python for now
       else {
