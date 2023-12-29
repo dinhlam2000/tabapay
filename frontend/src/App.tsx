@@ -9,6 +9,10 @@ import PageLayout from "./components/Layout/PageLayout";
 
 const defaultTheme = createTheme({
   palette: {
+    mode: "dark",
+    background: {
+      default: "#2D3139",
+    },
     primary: {
       main: "#36BFFA",
       // light: will be calculated from palette.primary.main,

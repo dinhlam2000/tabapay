@@ -55,6 +55,7 @@ const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   "& .MuiDrawer-paper": {
+    backgroundColor: "inherit",
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
@@ -89,9 +90,12 @@ function PageLayout() {
   const tree = useMemo(() => treeParser(dataSource || []), [dataSource]);
 
   const handleNodeSelect = useCallback(
-    (node: string) => {
-      setCurrentNodeID(node);
-      setSelectedNode(tree.folderMapperId[node]);
+    (nodeId: string) => {
+      const node = tree.folderMapperId[nodeId];
+      if (!node?.isFolder) {
+        setCurrentNodeID(nodeId);
+        setSelectedNode(tree.folderMapperId[nodeId]);
+      }
     },
     [setCurrentNodeID, setSelectedNode, tree]
   );
@@ -239,7 +243,7 @@ function PageLayout() {
             height: "calc(100vh - 132px)",
           }}
         >
-          {selectedNode?.name}
+          <Typography variant="h6">{selectedNode?.name}</Typography>
           <EditorContainer selectedNode={selectedNode} />
         </Container>
       </Box>

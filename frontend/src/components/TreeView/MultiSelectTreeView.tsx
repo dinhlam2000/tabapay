@@ -29,6 +29,9 @@ export default function MultiSelectTreeView({
       key={nodes.id}
       nodeId={nodes.id}
       label={nodes.name.split("/").slice(-1)}
+      sx={{
+        ".MuiTreeItem-content .MuiTreeItem-label": { fontSize: "inherit" },
+      }}
     >
       {Array.isArray(nodes.children)
         ? nodes.children.map((node) => renderTree(node))
@@ -43,7 +46,13 @@ export default function MultiSelectTreeView({
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         onNodeSelect={handleNodeSelect}
-        sx={{ height: "100%", flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+        sx={{
+          height: "100%",
+          flexGrow: 1,
+          maxWidth: 400,
+          overflowY: "auto",
+          fontSize: "0.8rem",
+        }}
       >
         {renderTree(treeContent)}
       </TreeView>

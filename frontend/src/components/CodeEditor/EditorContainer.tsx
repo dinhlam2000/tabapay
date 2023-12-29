@@ -11,7 +11,7 @@ function EditorContainer({
 }) {
   console.log("selectedNode", selectedNode);
   return (
-    <Box sx={{ height: "100%", overflowY: "scroll" }}>
+    <Box sx={{ height: "100%", overflowY: "scroll", fontSize: "0.8rem" }}>
       <CodeEditor fileContent={selectedNode?.content} />
     </Box>
   );

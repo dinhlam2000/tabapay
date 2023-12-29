@@ -2,10 +2,10 @@
 import { useCallback, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 function CodeEditor({ fileContent }: { fileContent: string | undefined }) {
   const [value, setValue] = useState<string | undefined>(fileContent);
-  console.log("value", value, fileContent);
   const onChange = useCallback((val: any, viewUpdate: any) => {
     setValue(val);
   }, []);
@@ -14,6 +14,7 @@ function CodeEditor({ fileContent }: { fileContent: string | undefined }) {
       value={fileContent}
       extensions={[javascript({ jsx: true })]}
       onChange={onChange}
+      theme={vscodeDark}
       basicSetup={{
         lineNumbers: true,
         highlightActiveLineGutter: true,
